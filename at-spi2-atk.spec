@@ -7,7 +7,7 @@ Group:		Libraries
 Source0:	http://download.gnome.org/sources/at-spi2-atk/1.91/%{name}-%{version}.tar.bz2
 # Source0-md5:	379ef04746566d1e6c477de11f04ad3f
 URL:		http://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
-BuildRequires:	at-spi2-core >= 1.91.92
+BuildRequires:	at-spi2-core-devel >= 1.91.92
 BuildRequires:	atk-devel >= 1.30.0
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -19,7 +19,7 @@ BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.592
 Requires(post,postun):	glib2 >= 1:2.26.0
-Requires:	at-spi2-core
+Requires:	at-spi2-core >= 1.91.92
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
