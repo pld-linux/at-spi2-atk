@@ -1,13 +1,13 @@
 Summary:	A GTK+ module that bridges ATK to D-Bus at-spi
 Name:		at-spi2-atk
-Version:	2.0.0
+Version:	2.0.1
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://download.gnome.org/sources/at-spi2-atk/2.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	6b05e1d69c1a955708c4d78a37cd08bd
+# Source0-md5:	c542775ac553e070332a85217f5401f6
 URL:		http://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
-BuildRequires:	at-spi2-core-devel >= 2.0.0
+BuildRequires:	at-spi2-core-devel >= 2.0.1
 BuildRequires:	atk-devel >= 2.0.0
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -19,7 +19,7 @@ BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.592
 Requires(post,postun):	glib2 >= 1:2.26.0
-Requires:	at-spi2-core >= 2.0.0
+Requires:	at-spi2-core >= 2.0.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
