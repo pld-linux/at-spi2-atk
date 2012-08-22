@@ -76,9 +76,11 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %post
+/sbin/ldconfig
 %glib_compile_schemas
 
 %postun
+/sbin/ldconfig
 %glib_compile_schemas
 
 %files -f %{name}.lang
