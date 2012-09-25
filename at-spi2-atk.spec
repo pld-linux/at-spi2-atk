@@ -1,21 +1,19 @@
 Summary:	A GTK+ module that bridges ATK to D-Bus at-spi
 Summary(pl.UTF-8):	Moduł GTK+ łączący ATK z at-spi jako usługą D-Bus
 Name:		at-spi2-atk
-Version:	2.5.91
+Version:	2.6.0
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.5/%{name}-%{version}.tar.xz
-# Source0-md5:	f4959cf660ae2d0a785339b1a73024df
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.6/%{name}-%{version}.tar.xz
+# Source0-md5:	1597e1f88778611be18d8710ac95787d
 URL:		http://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
 BuildRequires:	at-spi2-core-devel >= 2.4.0
 BuildRequires:	atk-devel >= 2.4.0
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	dbus-devel >= 1.0
-BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.0.0
-BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.592
@@ -52,7 +50,6 @@ Pliki nagłówkowe biblioteki at-spi2-atk.
 %setup -q
 
 %build
-%{__intltoolize}
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
@@ -71,8 +68,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/gtk-*/modules/libatk-bridge.la \
     $RPM_BUILD_ROOT%{_libdir}/*.la
 
-%find_lang %{name}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -84,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 %glib_compile_schemas
 
-%files -f %{name}.lang
+%files
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README
 %attr(755,root,root) %{_libdir}/gtk-2.0/modules/libatk-bridge.so
