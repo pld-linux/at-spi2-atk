@@ -1,8 +1,12 @@
+#
+# Conditional build:
+%bcond_with	static_libs	# static library
+#
 Summary:	A GTK+ module that bridges ATK to D-Bus at-spi
 Summary(pl.UTF-8):	Moduł GTK+ łączący ATK z at-spi jako usługą D-Bus
 Name:		at-spi2-atk
 Version:	2.6.0
-Release:	1
+Release:	2
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.6/%{name}-%{version}.tar.xz
@@ -10,7 +14,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.6/%{name}-%{versio
 URL:		http://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
 BuildRequires:	at-spi2-core-devel >= 2.4.0
 BuildRequires:	atk-devel >= 2.4.0
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	dbus-devel >= 1.0
 BuildRequires:	glib2-devel >= 2.0.0
@@ -21,6 +25,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xz
 Requires(post,postun):	glib2 >= 1:2.26.0
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	at-spi2-core >= 2.4.0
 Requires:	atk >= 2.4.0
 Requires:	dbus >= 1.0
@@ -34,17 +39,46 @@ based at-spi.
 Ten pakiet dostarcza moduł GTK+ łączący ATK z nowym at-spi, opartym o
 usługę D-Bus.
 
+%package libs
+Summary:	Shared atk-bridge library
+Summary(pl.UTF-8):	Biblioteka współdzielona atk-bridge
+Group:		Libraries
+Requires:	at-spi2-core-libs >= 2.4.0
+Requires:	glib2 >= 2.0.0
+Conflicts:	at-spi2-atk < 2.6.0-2
+
+%description libs
+Shared atk-bridge library, providing ATK/D-Bus bridge.
+
+%description libs -l pl.UTF-8
+Biblioteka współdzielona atk-bridge, zapewniająca pomost między ATK a
+D-Bus.
+
 %package devel
-Summary:	Header files for at-spi2-atk library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki at-spi2-atk
+Summary:	Header files for atk-bridge library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki atk-bridge
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	at-spi2-core-devel >= 2.4.0
+Requires:	glib2-devel >= 2.0.0
 
 %description devel
-Header files for at-spi2-atk library.
+Header files for atk-bridge library.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki at-spi2-atk.
+Pliki nagłówkowe biblioteki atk-bridge.
+
+%package static
+Summary:	Static atk-bridge library
+Summary(pl.UTF-8):	Biblioteka statyczna atk-bridge
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static atk-bridge library.
+
+%description static -l pl.UTF-8
+Biblioteka statyczna atk-bridge.
 
 %prep
 %setup -q
@@ -56,7 +90,8 @@ Pliki nagłówkowe biblioteki at-spi2-atk.
 %{__autoheader}
 %{__automake}
 %configure \
-    --disable-silent-rules
+	--disable-silent-rules
+	%{?with_static_libs:--enable-static}
 %{__make}
 
 %install
@@ -66,30 +101,42 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/gtk-*/modules/libatk-bridge.la \
-    $RPM_BUILD_ROOT%{_libdir}/*.la
+	$RPM_BUILD_ROOT%{_libdir}/*.la
+
+%{?with_static_libs:%{__rm} $RPM_BUILD_ROOT%{_libdir}/gtk-*/module/libatk-bridge.a}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/ldconfig
 %glib_compile_schemas
 
 %postun
-/sbin/ldconfig
 %glib_compile_schemas
+
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README
 %attr(755,root,root) %{_libdir}/gtk-2.0/modules/libatk-bridge.so
-%attr(755,root,root) %{_libdir}/libatk-bridge-2.0.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libatk-bridge-2.0.so.0
 %{_libdir}/gnome-settings-daemon-3.0/gtk-modules/at-spi2-atk.desktop
 %{_datadir}/glib-2.0/schemas/org.a11y.atspi.gschema.xml
+
+%files libs
+%defattr(644,root,root,755)
+%doc AUTHORS NEWS README
+%attr(755,root,root) %{_libdir}/libatk-bridge-2.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libatk-bridge-2.0.so.0
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libatk-bridge-2.0.so
 %{_includedir}/at-spi2-atk
 %{_pkgconfigdir}/atk-bridge-2.0.pc
+
+%if %{with static_libs}
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libatk-bridge-2.0.a
+%endif
