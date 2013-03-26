@@ -5,29 +5,28 @@
 Summary:	A GTK+ module that bridges ATK to D-Bus at-spi
 Summary(pl.UTF-8):	Moduł GTK+ łączący ATK z at-spi jako usługą D-Bus
 Name:		at-spi2-atk
-Version:	2.6.2
+Version:	2.8.0
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.6/%{name}-%{version}.tar.xz
-# Source0-md5:	7e43d24b64d156119b2b0879393cc94d
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.8/%{name}-%{version}.tar.xz
+# Source0-md5:	90b617bd811f8dbc3e138e87294b22d4
 URL:		http://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
-BuildRequires:	at-spi2-core-devel >= 2.4.0
-BuildRequires:	atk-devel >= 2.4.0
+BuildRequires:	at-spi2-core-devel >= 2.7.5
+BuildRequires:	atk-devel >= 2.7.90
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	dbus-devel >= 1.0
-BuildRequires:	glib2-devel >= 2.0.0
+BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.592
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xz
-Requires(post,postun):	glib2 >= 1:2.26.0
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	at-spi2-core >= 2.4.0
-Requires:	atk >= 2.4.0
+Requires:	at-spi2-core >= 2.7.5
+Requires:	atk >= 2.7.90
 Requires:	dbus >= 1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -43,8 +42,8 @@ usługę D-Bus.
 Summary:	Shared atk-bridge library
 Summary(pl.UTF-8):	Biblioteka współdzielona atk-bridge
 Group:		Libraries
-Requires:	at-spi2-core-libs >= 2.4.0
-Requires:	glib2 >= 2.0.0
+Requires:	at-spi2-core-libs >= 2.7.5
+Requires:	glib2 >= 1:2.32.0
 Conflicts:	at-spi2-atk < 2.6.0-2
 
 %description libs
@@ -59,8 +58,8 @@ Summary:	Header files for atk-bridge library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki atk-bridge
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	at-spi2-core-devel >= 2.4.0
-Requires:	glib2-devel >= 2.0.0
+Requires:	at-spi2-core-devel >= 2.7.5
+Requires:	glib2-devel >= 1:2.32.0
 
 %description devel
 Header files for atk-bridge library.
@@ -108,12 +107,6 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-%glib_compile_schemas
-
-%postun
-%glib_compile_schemas
-
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
 
@@ -121,7 +114,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/gtk-2.0/modules/libatk-bridge.so
 %{_libdir}/gnome-settings-daemon-3.0/gtk-modules/at-spi2-atk.desktop
-%{_datadir}/glib-2.0/schemas/org.a11y.atspi.gschema.xml
 
 %files libs
 %defattr(644,root,root,755)
