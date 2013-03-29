@@ -26,7 +26,6 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xz
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	at-spi2-core >= 2.7.5
-Requires:	atk >= 2.7.90
 Requires:	dbus >= 1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -43,6 +42,8 @@ Summary:	Shared atk-bridge library
 Summary(pl.UTF-8):	Biblioteka współdzielona atk-bridge
 Group:		Libraries
 Requires:	at-spi2-core-libs >= 2.7.5
+Requires:	atk >= 2.7.90
+Requires:	dbus-libs >= 1.0
 Requires:	glib2 >= 1:2.32.0
 Conflicts:	at-spi2-atk < 2.6.0-2
 
