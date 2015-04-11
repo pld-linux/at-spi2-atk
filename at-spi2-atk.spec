@@ -13,7 +13,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.16/%{name}-%{versi
 # Source0-md5:	8936488c8cdce0e158f80b2e247527f9
 URL:		https://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
 BuildRequires:	at-spi2-core-devel >= 2.16.0
-BuildRequires:	atk-devel >= 2.16.0
+BuildRequires:	atk-devel >= 1:2.16.0
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	dbus-devel >= 1.5
@@ -25,7 +25,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xz
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	atk >= 2.16.0
+Requires:	atk >= 1:2.16.0
 Requires:	at-spi2-core >= 2.16.0
 Requires:	dbus >= 1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -43,7 +43,7 @@ Summary:	Shared atk-bridge library
 Summary(pl.UTF-8):	Biblioteka współdzielona atk-bridge
 Group:		Libraries
 Requires:	at-spi2-core-libs >= 2.16.0
-Requires:	atk >= 2.16.0
+Requires:	atk >= 1:2.16.0
 Requires:	dbus-libs >= 1.5
 Requires:	glib2 >= 1:2.32.0
 Conflicts:	at-spi2-atk < 2.6.0-2
