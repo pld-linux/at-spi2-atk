@@ -5,14 +5,14 @@
 Summary:	A GTK+ module that bridges ATK to D-Bus at-spi
 Summary(pl.UTF-8):	Moduł GTK+ łączący ATK z at-spi jako usługą D-Bus
 Name:		at-spi2-atk
-Version:	2.16.0
+Version:	2.18.0
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.16/%{name}-%{version}.tar.xz
-# Source0-md5:	8936488c8cdce0e158f80b2e247527f9
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.18/%{name}-%{version}.tar.xz
+# Source0-md5:	df1bbe9f4cd55342e18097a0e4b6d380
 URL:		https://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
-BuildRequires:	at-spi2-core-devel >= 2.16.0
+BuildRequires:	at-spi2-core-devel >= 2.18.0
 BuildRequires:	atk-devel >= 1:2.16.0
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -26,7 +26,7 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xz
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	atk >= 1:2.16.0
-Requires:	at-spi2-core >= 2.16.0
+Requires:	at-spi2-core >= 2.18.0
 Requires:	dbus >= 1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -42,7 +42,7 @@ usługę D-Bus.
 Summary:	Shared atk-bridge library
 Summary(pl.UTF-8):	Biblioteka współdzielona atk-bridge
 Group:		Libraries
-Requires:	at-spi2-core-libs >= 2.16.0
+Requires:	at-spi2-core-libs >= 2.18.0
 Requires:	atk >= 1:2.16.0
 Requires:	dbus-libs >= 1.5
 Requires:	glib2 >= 1:2.32.0
@@ -60,7 +60,7 @@ Summary:	Header files for atk-bridge library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki atk-bridge
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	at-spi2-core-devel >= 2.16.0
+Requires:	at-spi2-core-devel >= 2.18.0
 Requires:	glib2-devel >= 1:2.32.0
 
 %description devel
