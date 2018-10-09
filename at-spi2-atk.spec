@@ -5,28 +5,28 @@
 Summary:	A GTK+ module that bridges ATK to D-Bus at-spi
 Summary(pl.UTF-8):	Moduł GTK+ łączący ATK z at-spi jako usługą D-Bus
 Name:		at-spi2-atk
-Version:	2.26.2
+Version:	2.30.0
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.26/%{name}-%{version}.tar.xz
-# Source0-md5:	355c7916a69513490cb83ad34016b169
-URL:		https://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
-BuildRequires:	at-spi2-core-devel >= 2.26.0
-BuildRequires:	atk-devel >= 1:2.26.0
-BuildRequires:	autoconf >= 2.50
-BuildRequires:	automake
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.30/%{name}-%{version}.tar.xz
+# Source0-md5:	1ad754b90bcb14244b73ca4d0c14d274
+URL:		https://wiki.linuxfoundation.org/accessibility/d-bus
+BuildRequires:	at-spi2-core-devel >= 2.30.0
+BuildRequires:	atk-devel >= 1:2.30.0
 BuildRequires:	dbus-devel >= 1.5
 BuildRequires:	glib2-devel >= 1:2.32.0
-BuildRequires:	libtool
+# for tests only
+#BuildRequires:	libxml2-devel >= 1:2.9.1
+BuildRequires:	meson >= 0.40.1
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.592
+BuildRequires:	rpmbuild(macros) >= 1.727
+BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xz
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	atk >= 1:2.26.0
-Requires:	at-spi2-core >= 2.26.0
+Requires:	atk >= 1:2.30.0
+Requires:	at-spi2-core >= 2.30.0
 Requires:	dbus >= 1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -42,8 +42,8 @@ usługę D-Bus.
 Summary:	Shared atk-bridge library
 Summary(pl.UTF-8):	Biblioteka współdzielona atk-bridge
 Group:		Libraries
-Requires:	at-spi2-core-libs >= 2.26.0
-Requires:	atk >= 1:2.26.0
+Requires:	at-spi2-core-libs >= 2.30.0
+Requires:	atk >= 1:2.30.0
 Requires:	dbus-libs >= 1.5
 Requires:	glib2 >= 1:2.32.0
 Conflicts:	at-spi2-atk < 2.6.0-2
@@ -60,7 +60,7 @@ Summary:	Header files for atk-bridge library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki atk-bridge
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	at-spi2-core-devel >= 2.26.0
+Requires:	at-spi2-core-devel >= 2.30.0
 Requires:	glib2-devel >= 1:2.32.0
 
 %description devel
@@ -84,27 +84,19 @@ Biblioteka statyczna atk-bridge.
 %prep
 %setup -q
 
+%if %{with static_lib}
+%{__sed} -i -e 's/shared_library/library/' atk-adaptor/meson.build
+%endif
+
 %build
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-silent-rules
-	%{?with_static_libs:--enable-static}
-%{__make}
+%meson build
+
+%meson_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/gtk-*/modules/libatk-bridge.la \
-	$RPM_BUILD_ROOT%{_libdir}/*.la
-
-%{?with_static_libs:%{__rm} $RPM_BUILD_ROOT%{_libdir}/gtk-*/module/libatk-bridge.a}
+%meson_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -119,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files libs
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README
+%doc AUTHORS MAINTAINERS NEWS README
 %attr(755,root,root) %{_libdir}/libatk-bridge-2.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libatk-bridge-2.0.so.0
 
