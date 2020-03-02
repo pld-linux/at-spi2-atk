@@ -1,16 +1,16 @@
 #
 # Conditional build:
-%bcond_with	static_libs	# static library
+%bcond_without	static_libs	# static library
 #
 Summary:	A GTK+ module that bridges ATK to D-Bus at-spi
 Summary(pl.UTF-8):	Moduł GTK+ łączący ATK z at-spi jako usługą D-Bus
 Name:		at-spi2-atk
-Version:	2.34.1
+Version:	2.34.2
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.34/%{name}-%{version}.tar.xz
-# Source0-md5:	e0f99641c5a403041c4214be04722e15
+# Source0-md5:	58cd278574e101363b18d9a8b7053d67
 URL:		https://wiki.linuxfoundation.org/accessibility/d-bus
 BuildRequires:	at-spi2-core-devel >= 2.34.0
 BuildRequires:	atk-devel >= 1:2.34.0
@@ -85,12 +85,9 @@ Biblioteka statyczna atk-bridge.
 %prep
 %setup -q
 
-%if %{with static_lib}
-%{__sed} -i -e 's/shared_library/library/' atk-adaptor/meson.build
-%endif
-
 %build
-%meson build
+%meson build \
+	%{!?with_static_libs:--default-library shared}
 
 %ninja_build -C build
 
