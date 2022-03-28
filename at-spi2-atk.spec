@@ -9,7 +9,7 @@ Version:	2.38.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/at-spi2-atk/2.38/%{name}-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/at-spi2-atk/2.38/%{name}-%{version}.tar.xz
 # Source0-md5:	aed95be54ef213d210331dda88298b92
 URL:		https://wiki.linuxfoundation.org/accessibility/d-bus
 BuildRequires:	at-spi2-core-devel >= 2.34.0
