@@ -87,7 +87,8 @@ Biblioteka statyczna atk-bridge.
 
 %build
 %meson build \
-	%{!?with_static_libs:--default-library=shared}
+	%{!?with_static_libs:--default-library=shared} \
+	-Dtests=false
 
 %ninja_build -C build
 
