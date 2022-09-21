@@ -1,3 +1,4 @@
+# NOTE: for versions >= 2.46 see at-spi2-core.spec
 #
 # Conditional build:
 %bcond_without	static_libs	# static library
@@ -6,7 +7,7 @@ Summary:	A GTK+ module that bridges ATK to D-Bus at-spi
 Summary(pl.UTF-8):	Moduł GTK+ łączący ATK z at-spi jako usługą D-Bus
 Name:		at-spi2-atk
 Version:	2.38.0
-Release:	1
+Release:	1.1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://download.gnome.org/sources/at-spi2-atk/2.38/%{name}-%{version}.tar.xz
